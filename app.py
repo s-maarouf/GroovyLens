@@ -1,6 +1,7 @@
 """SpotiLytics app that returns data from spotify endpoint API"""
 
 import os
+import json
 import datetime
 import requests
 from uuid import uuid4
@@ -30,7 +31,9 @@ def index():
         str: The welcome message with the login link.
     """
 
-    return "Welcome to SpotiLytics <a href=/login> Login with Spotify</a>"
+    return "Welcome to SpotiLytics <a href=/login> Login with Spotify</a> <br>\
+            Check your <a href=/playlists> playlists</a> <br> \
+            Check your <a href= /profile> profile</a>"
 
 
 @app.route("/login")
@@ -84,7 +87,7 @@ def callback():
         session["expires_at"] = datetime.datetime.now().timestamp() + \
             token["expires_in"]
 
-        return redirect("/playlists")
+        return redirect("/")
 
 
 @app.route("/playlists")
@@ -106,10 +109,43 @@ def get_playlists():
         "Authorization": "Bearer " + session["access_token"]
     }
     response = requests.get(
-        ApiUrl + "/playlists?offset=0&limit=5", headers=headers)
-    playlists = response.json()
+        ApiUrl + "/playlists?offset=0&limit=20", headers=headers)
+    data = response.json()
+    for playlist in data["items"]:
+        name = playlist["name"]
+        display_name = playlist["owner"]["display_name"]
+        total_tracks = playlist["tracks"]["total"]
+        print("Owner:", playlist["owner"]["display_name"])
+        print("Playlist name:", playlist["name"])
+        print("Total tracks:", playlist["tracks"]["total"])
 
-    return jsonify(playlists)
+    return jsonify({
+        "Playlist name": name,
+        "Owner": display_name,
+        "Total tracks": total_tracks
+    })
+
+
+@app.route("/profile")
+def get_profile():
+    """
+    Retrieves the current user's profile from the API.
+
+    Returns:
+        A JSON response containing the user profile.
+    """
+    if "access_token" not in session:
+        return redirect("/login")
+
+    if datetime.datetime.now().timestamp() > session["expires_at"]:
+        return redirect("/refresh-token")
+    headers = {
+        "Authorization": "Bearer " + session["access_token"]
+    }
+    response = requests.get(ApiUrl, headers=headers)
+    profile = response.json()
+
+    return jsonify(profile)
 
 
 @app.route("/refresh-token")
