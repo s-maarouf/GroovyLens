@@ -64,8 +64,10 @@ def callback():
     Callback function for handling the response from the authorization server.
 
     Returns:
-        A redirect to the "/playlists" endpoint if the authorization code is present in the request arguments.
-        Otherwise, returns a JSON response with an error message if the "error" parameter is present in the request arguments.
+        A redirect to the "/playlists" endpoint if the authorization code
+            is present in the request arguments.
+        Otherwise, returns a JSON response with an error message if
+            the "error" parameter is present in the request arguments.
     """
 
     if "error" in request.args:
@@ -110,6 +112,10 @@ def get_playlists():
     }
     response = requests.get(
         ApiUrl + "/playlists?offset=0&limit=50", headers=headers)
+    if response.status_code != 200:
+        return jsonify({
+            "error": "Failed to fetch playlists, please try again"
+        }), response.status_code
     data = response.json()
     playlists = []
 
@@ -143,9 +149,25 @@ def get_profile():
         "Authorization": "Bearer " + session["access_token"]
     }
     response = requests.get(ApiUrl, headers=headers)
-    profile = response.json()
+    if response.status_code != 200:
+        return jsonify({
+            "error": "Failed to fetch user profile, please try again"
+        }), response.status_code
+    data = response.json()
+    user = []
+    if data["product"] == "free":
+        is_subscribed = False
+    user_info = {
+        "Display name": data["display_name"],
+        "User name": data["id"],
+        "Followers": data["followers"]["total"],
+        "Profile link": data["external_urls"]["spotify"],
+        "Is subscribed to premium:": is_subscribed,
+        "Profile picture": data["images"][1]
+    }
+    user.append(user_info)
 
-    return jsonify(profile)
+    return jsonify(user)
 
 
 @app.route("/refresh-token")
@@ -154,7 +176,8 @@ def refresh_token():
     Refreshes the access token if it has expired.
 
     Returns:
-        A redirect to the "/playlists" endpoint if the access token has been successfully refreshed.
+        A redirect to the "/playlists" endpoint if the access token
+            has been successfully refreshed.
         Otherwise, returns a redirect to the "/login" endpoint.
     """
 
