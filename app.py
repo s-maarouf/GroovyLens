@@ -109,20 +109,20 @@ def get_playlists():
         "Authorization": "Bearer " + session["access_token"]
     }
     response = requests.get(
-        ApiUrl + "/playlists?offset=0&limit=20", headers=headers)
+        ApiUrl + "/playlists?offset=0&limit=50", headers=headers)
     data = response.json()
-    for playlist in data["items"]:
-        name = playlist["name"]
-        display_name = playlist["owner"]["display_name"]
-        total_tracks = playlist["tracks"]["total"]
-        print("Owner:", playlist["owner"]["display_name"])
-        print("Playlist name:", playlist["name"])
-        print("Total tracks:", playlist["tracks"]["total"])
+    playlists = []
 
-    return jsonify({
-        "Playlist name": name,
-        "Owner": display_name,
-        "Total tracks": total_tracks
+    for playlist in data["items"]:
+        playlist_info = {
+            "Playlist name": playlist["name"],
+            "Owner": playlist["owner"]["display_name"],
+            "Total tracks": playlist["tracks"]["total"]
+        }
+        playlists.append(playlist_info)
+
+    return jsonify(playlists, {
+        "Total playlists": data["total"]
     })
 
 
