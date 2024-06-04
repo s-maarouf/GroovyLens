@@ -31,9 +31,7 @@ def index():
         str: The welcome message with the login link.
     """
 
-    return "Welcome to SpotiLytics <a href=/login> Login with Spotify</a> <br>\
-            Check your <a href=/playlists> playlists</a> <br> \
-            Check your <a href= /profile> profile</a>"
+    return render_template("index.html")
 
 
 @app.route("/login")
@@ -45,7 +43,8 @@ def login():
         A redirect response to the Spotify authorization page.
     """
 
-    scope = "user-read-private user-read-email playlist-read-private"
+    scope = "user-read-private user-read-email \
+            playlist-read-private user-top-read"
     params = {
         "client_id": ClientId,
         "response_type": "code",
@@ -163,11 +162,40 @@ def get_profile():
         "Followers": data["followers"]["total"],
         "Profile link": data["external_urls"]["spotify"],
         "Is subscribed to premium:": is_subscribed,
-        "Profile picture": data["images"][1]
+        "Profile picture": data["images"][1]["url"]
     }
     user.append(user_info)
 
     return jsonify(user)
+
+
+@app.route("/top-artists")
+def get_artists():
+    if "access_token" not in session:
+        return redirect("/login")
+
+    if datetime.datetime.now().timestamp() > session["expires_at"]:
+        return redirect("/refresh-token")
+    headers = {
+        "Authorization": "Bearer " + session["access_token"]
+    }
+    response = requests.get(
+        ApiUrl + "/top/artists?time_range=medium_term&limit=10&offset=0",
+        headers=headers)
+    if response.status_code != 200:
+        return jsonify({
+            "error": "Failed to fetch user profile, please try again"
+        }), response.status_code
+    data = response.json()
+    artists = []
+    for item in data["items"]:
+        artist_info = {
+            "Name": item["name"],
+            "Followers": item["followers"]["total"],
+        }
+        artists.append(artist_info)
+
+    return jsonify(artists)
 
 
 @app.route("/refresh-token")
