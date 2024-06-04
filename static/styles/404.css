@@ -20,25 +20,17 @@ body {
 .greetings h1 {
     font-family: 'Poppins', sans-serif;
     font-weight: 700;
-    font-size: 2.7em;
+    font-size: 5em;
     color: #1db954;
     margin: 30px;
 }
 
-.greetings a {
+.greetings h3 {
     font-family: 'Poppins', sans-serif;
     font-weight: 600;
-    font-size: 1.2em;
-    text-decoration: none;
-    color: #fff;
-    background-color: #1db954;
-    padding: 10px 20px;
-    border-radius: 50px;
-    transition: background-color 0.3s;
-}
+    font-size: 1.5em;
+    margin: 10px 0;
 
-.greetings a:hover {
-    background-color: #14833b;
 }
 
 .links {

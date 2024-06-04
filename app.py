@@ -156,6 +156,8 @@ def get_profile():
     user = []
     if data["product"] == "free":
         is_subscribed = False
+    else:
+        is_subscribed = True
     user_info = {
         "Display name": data["display_name"],
         "User name": data["id"],
@@ -198,6 +200,40 @@ def get_artists():
     return jsonify(artists)
 
 
+@app.route("/top-tracks")
+def get_tracks():
+    if "access_token" not in session:
+        return redirect("/login")
+
+    if datetime.datetime.now().timestamp() > session["expires_at"]:
+        return redirect("/refresh-token")
+    headers = {
+        "Authorization": "Bearer " + session["access_token"]
+    }
+    response = requests.get(
+        ApiUrl + "/top/tracks?time_range=long_term&limit=10&offset=0",
+        headers=headers)
+    if response.status_code != 200:
+        return jsonify({
+            "error": "Failed to fetch user profile, please try again"
+        }), response.status_code
+    data = response.json()
+    tracks = []
+    for item in data["items"]:
+        track_info = {
+            "Track name": item["name"],
+            "Track link": item["external_urls"]["spotify"],
+            "Track image": item["album"]["images"][1]["url"],
+            "Album name": item["album"]["name"],
+            "Artists": item["artists"],
+            "Preview link": item["preview_url"]
+        }
+
+        tracks.append(track_info)
+
+    return jsonify(tracks)
+
+
 @app.route("/refresh-token")
 def refresh_token():
     """
@@ -226,9 +262,13 @@ def refresh_token():
         session["expires_at"] = datetime.datetime.now().timestamp() + \
             new_token["expires_in"]
         return redirect("/playlists")
+    
+@app.errorhandler(404)
+def not_found(error):
+    return render_template("404.html"), 404
 
 
 if __name__ == "__main__":
 
     """ Main Function """
-    app.run(host='0.0.0.0', debug=True, port=5000)
+    app.run(host="0.0.0.0", debug=True, port=5000)
