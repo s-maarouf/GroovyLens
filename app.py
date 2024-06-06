@@ -88,7 +88,38 @@ def callback():
         session["expires_at"] = datetime.datetime.now().timestamp() + \
             token["expires_in"]
 
-        return redirect("/")
+        return redirect("/profile")
+
+
+@app.route("/profile")
+def get_profile():
+    """
+    Retrieves the current user's profile from the API.
+
+    Returns:
+        A JSON response containing the user profile.
+    """
+    if "access_token" not in session:
+        return redirect("/login")
+
+    if datetime.datetime.now().timestamp() > session["expires_at"]:
+        return redirect("/refresh-token")
+    headers = {
+        "Authorization": "Bearer " + session["access_token"]
+    }
+    response = requests.get(ApiUrl, headers=headers)
+    if response.status_code != 200:
+        return jsonify({
+            "error": "Failed to fetch user profile, please try again"
+        }), response.status_code
+    data = response.json()
+    user_info = {
+        "username": data["display_name"],
+        "followers": data["followers"]["total"],
+        "profile_pic": data["images"][1]["url"] if data["images"] else None
+    }
+
+    return render_template("profile.html", user=user_info)
 
 
 @app.route("/playlists")
@@ -122,53 +153,14 @@ def get_playlists():
         playlist_info = {
             "Playlist name": playlist["name"],
             "Owner": playlist["owner"]["display_name"],
-            "Total tracks": playlist["tracks"]["total"]
+            "Total tracks": playlist["tracks"]["total"],
+            "Playlist link": playlist["external_urls"]["spotify"],
         }
         playlists.append(playlist_info)
 
-    return jsonify(playlists, {
-        "Total playlists": data["total"]
-    })
+    total_playlists = len(playlists)
 
-
-@app.route("/profile")
-def get_profile():
-    """
-    Retrieves the current user's profile from the API.
-
-    Returns:
-        A JSON response containing the user profile.
-    """
-    if "access_token" not in session:
-        return redirect("/login")
-
-    if datetime.datetime.now().timestamp() > session["expires_at"]:
-        return redirect("/refresh-token")
-    headers = {
-        "Authorization": "Bearer " + session["access_token"]
-    }
-    response = requests.get(ApiUrl, headers=headers)
-    if response.status_code != 200:
-        return jsonify({
-            "error": "Failed to fetch user profile, please try again"
-        }), response.status_code
-    data = response.json()
-    user = []
-    if data["product"] == "free":
-        is_subscribed = False
-    else:
-        is_subscribed = True
-    user_info = {
-        "Display name": data["display_name"],
-        "User name": data["id"],
-        "Followers": data["followers"]["total"],
-        "Profile link": data["external_urls"]["spotify"],
-        "Is subscribed to premium:": is_subscribed,
-        "Profile picture": data["images"][1]["url"]
-    }
-    user.append(user_info)
-
-    return jsonify(user)
+    return render_template("playlists.html", playlists=playlists, total_playlists=total_playlists)
 
 
 @app.route("/top-artists")
@@ -261,8 +253,9 @@ def refresh_token():
         session["access_token"] = new_token["access_token"]
         session["expires_at"] = datetime.datetime.now().timestamp() + \
             new_token["expires_in"]
-        return redirect("/playlists")
-    
+        return redirect("/")
+
+
 @app.errorhandler(404)
 def not_found(error):
     return render_template("404.html"), 404
