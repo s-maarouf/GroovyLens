@@ -1,0 +1,98 @@
+body {
+    font-family: 'Open Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #283618;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    color: #fefae0;
+}
+
+.container {
+    width: 80%;
+    max-width: 800px;
+    margin: 20px;
+    padding: 20px;
+    background-color: #1db954;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    text-align: center;
+}
+
+.greetings {
+    margin-bottom: 20px;
+}
+
+.greetings h1 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 2.5em;
+    color: #fefae0;
+    margin: 10px 0;
+}
+
+.greetings span {
+    font-weight: 700;
+    font-size: 1.2em;
+    color: #283618;
+
+}
+
+.profile-card {
+    background-color: #fefae0;
+    color: #283618;
+    border: 1px solid #ddd;
+    margin: 15px;
+    padding: 15px;
+    border-radius: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.profile-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.profile-pic {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-bottom: 15px;
+    border: 3px solid #283618;
+}
+
+.profile-info {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 1.3em;
+}
+
+.links {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.links h3 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 1.2em;
+    margin: 10px 0;
+}
+
+.links a {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    text-decoration: none;
+    color: #283618;
+    transition: color 0.3s;
+}
+
+.links a:hover {
+    color: #14833b;
+}

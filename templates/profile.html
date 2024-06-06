@@ -1,0 +1,34 @@
+<html>
+
+<head>
+    <title>SpotiLytics</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link type="text/css" rel="stylesheet" href="../static/styles/profile.css">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,600,700" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <div class="greetings">
+            <h1>Hello, <span>{{ user['username'] }}</span>!</h1>
+        </div>
+        <div class="profile-card">
+            <img src="{{ user['profile_pic'] }}" alt="Profile Picture" class="profile-pic">
+            <div class="profile-info">
+                <p><strong>Total Followers:</strong> {{ user['followers'] }}</p>
+            </div>
+        </div>
+        <div class="links">
+            <h3>Check your <a href="/playlists">spotify playlists</a></h3>
+            <h3>Check your <a href="/top-artists">spotify top 10 artists</a> of last 6 months</h3>
+            <h3>Check your <a href="/top-tracks">spotify top 10 songs</a> of last 6 months</h3>
+        </div>
+    </div>
+</body>
+
+</html>
