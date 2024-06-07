@@ -40,26 +40,3 @@ body {
 .greetings a:hover {
     background-color: #14833b;
 }
-
-.links {
-    text-align: center;
-}
-
-.links h3 {
-    font-family: 'Poppins', sans-serif;
-    font-weight: 400;
-    font-size: 1.2em;
-    margin: 10px 0;
-}
-
-.links a {
-    font-family: 'Poppins', sans-serif;
-    font-weight: 600;
-    text-decoration: none;
-    color: #1db954;
-    transition: color 0.3s;
-}
-
-.links a:hover {
-    color: #14833b;
-}
