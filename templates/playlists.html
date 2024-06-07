@@ -9,21 +9,29 @@
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap">
     <link rel="stylesheet" href="../static/styles/playlists.css">
+    <script src="https://kit.fontawesome.com/01dce77cff.js" crossorigin="anonymous"></script>
     <title>Spotify Playlists</title>
-
 </head>
 
 <body>
-    <h1>Your Spotify playlists</h1>
+    <div class="header">
+        <button class="home-button">
+            <a href="/profile"><i class="fa-solid fa-house-user"></i> Home</a>
+        </button>
+        <h1>Your Spotify playlists</h1>
+    </div>
     <div class="container" id="playlists">
         <div class="total-playlists">
             Total Playlists: {{ total_playlists }}
         </div>
         {% for playlist in playlists %}
         <div class="playlist">
-            <h2>{{ playlist['Playlist name'] }}</h2>
-            <p><strong>Owner:</strong> {{ playlist['Owner'] }}</p>
-            <p><strong>Total tracks:</strong> {{ playlist['Total tracks'] }}</p>
+            <img src="{{ playlist['image'] }}" alt="Playlist image" class="playlist-image">
+            <div class="playlist-info">
+                <h2>{{ playlist['Playlist name'] }}</h2>
+                <p><strong>Owner:</strong> {{ playlist['Owner'] }}</p>
+                <p><strong>Total tracks:</strong> {{ playlist['Total tracks'] }}</p>
+            </div>
         </div>
         {% endfor %}
     </div>

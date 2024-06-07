@@ -155,6 +155,7 @@ def get_playlists():
             "Owner": playlist["owner"]["display_name"],
             "Total tracks": playlist["tracks"]["total"],
             "Playlist link": playlist["external_urls"]["spotify"],
+            "image": playlist["images"][0]["url"]
         }
         playlists.append(playlist_info)
 
