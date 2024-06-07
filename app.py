@@ -264,4 +264,4 @@ def not_found(error):
 if __name__ == "__main__":
 
     """ Main Function """
-    app.run(host="0.0.0.0", debug=True, port=5000)
+    app.run()
