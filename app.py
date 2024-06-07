@@ -10,9 +10,17 @@ from flask import Flask, jsonify, request, render_template, redirect, session
 app = Flask(__name__)
 app.secret_key = str(uuid4())
 
+<<<<<<< HEAD
 ClientId = os.environ.get("ClientId")
 ClientSecret = os.environ.get("ClientSecret")
 RedirectUri = "https://spotilytics.onrender.com/callback"
+=======
+load_dotenv()
+
+ClientId = os.getenv("ClientId")
+ClientSecret = os.getenv("ClientSecret")
+RedirectUri = "http://127.0.0.1:10000/callback"
+>>>>>>> Testing
 AuthUrl = "https://accounts.spotify.com/authorize"
 TokenUrl = "https://accounts.spotify.com/api/token"
 ApiUrl = "https://api.spotify.com/v1/me"
@@ -153,6 +161,7 @@ def get_playlists():
             "Owner": playlist["owner"]["display_name"],
             "Total tracks": playlist["tracks"]["total"],
             "Playlist link": playlist["external_urls"]["spotify"],
+            "image": playlist["images"][0]["url"]
         }
         playlists.append(playlist_info)
 
