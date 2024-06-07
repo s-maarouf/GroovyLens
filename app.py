@@ -1,21 +1,17 @@
 """SpotiLytics app that returns data from spotify endpoint API"""
 
 import os
-import json
 import datetime
 import requests
 from uuid import uuid4
 from urllib import parse
-from dotenv import load_dotenv
 from flask import Flask, jsonify, request, render_template, redirect, session
 
 app = Flask(__name__)
 app.secret_key = str(uuid4())
 
-load_dotenv()
-
-ClientId = os.getenv("ClientId")
-ClientSecret = os.getenv("ClientSecret")
+ClientId = os.environ.get("ClientId")
+ClientSecret = os.environ.get("ClientSecret")
 RedirectUri = "http://localhost:5000/callback"
 AuthUrl = "https://accounts.spotify.com/authorize"
 TokenUrl = "https://accounts.spotify.com/api/token"
