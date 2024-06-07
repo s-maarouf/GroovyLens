@@ -12,7 +12,7 @@ app.secret_key = str(uuid4())
 
 ClientId = os.environ.get("ClientId")
 ClientSecret = os.environ.get("ClientSecret")
-RedirectUri = "https://spotilytics.onrender.com/callback"
+RedirectUri = "http://127.0.0.1:5000/callback"
 AuthUrl = "https://accounts.spotify.com/authorize"
 TokenUrl = "https://accounts.spotify.com/api/token"
 ApiUrl = "https://api.spotify.com/v1/me"
