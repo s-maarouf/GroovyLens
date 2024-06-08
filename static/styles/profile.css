@@ -96,6 +96,45 @@ body {
     color: #14833b;
 }
 
+.logout {
+    margin-top: auto;
+    margin-bottom: 10px;
+}
+
+.logout-button {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 1.2em;
+    text-decoration: none;
+    color: #fff;
+    background-color: #1db954;
+    position: relative;
+    bottom: 30px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logout-button a {
+    color: #fff;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.logout-button i {
+    margin-right: 8px;
+}
+
+.logout-button:hover {
+    background-color: #14833b;
+}
+
 i {
     color: #283618;
     font-size: 1.2em;
