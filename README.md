@@ -4,14 +4,19 @@ SpotiLytics is a Flask web application that interacts with the Spotify API to pr
 
 ## Table of Contents
 
-Features
-Requirements
-Installation
-Configuration
-Usage
-Routes
-Project Structure
-License
+- [SpotiLytics](#spotilytics)
+  - [Table of Contents](#table-of-contents)
+  - [Features](#features)
+  - [Requirements](#requirements)
+  - [Installation](#installation)
+    - [Install the required packages](#install-the-required-packages)
+    - [Configuration](#configuration)
+    - [Usage](#usage)
+  - [Documentation](#documentation)
+    - [Routes](#routes)
+    - [Project Structure](#project-structure)
+    - [Files](#files)
+  - [Author](#author)
 
 ## Features
 
