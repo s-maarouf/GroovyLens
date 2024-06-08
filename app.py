@@ -12,13 +12,14 @@ app.secret_key = str(uuid4())
 
 ClientId = os.environ.get("ClientId")
 ClientSecret = os.environ.get("ClientSecret")
-RedirectUri = "https://spotilytics.onrender.com/callback"
+RedirectUri = "https://smaarouf.tech/callback"
 AuthUrl = "https://accounts.spotify.com/authorize"
 TokenUrl = "https://accounts.spotify.com/api/token"
 ApiUrl = "https://api.spotify.com/v1/me"
 
 
 print(ClientId, ClientSecret)
+
 
 @app.route("/")
 def index():
@@ -159,7 +160,9 @@ def get_playlists():
 
     total_playlists = len(playlists)
 
-    return render_template("playlists.html", playlists=playlists, total_playlists=total_playlists)
+    return render_template("playlists.html",
+                           playlists=playlists,
+                           total_playlists=total_playlists)
 
 
 @app.route("/top-artists")
