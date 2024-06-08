@@ -108,9 +108,7 @@ def get_profile():
     }
     response = requests.get(ApiUrl, headers=headers)
     if response.status_code != 200:
-        return jsonify({
-            "error": "Failed to fetch user profile, please try again"
-        }), response.status_code
+        return redirect("/error")
     data = response.json()
     user_info = {
         "username": data["display_name"],
@@ -142,9 +140,7 @@ def get_playlists():
     response = requests.get(
         ApiUrl + "/playlists?offset=0&limit=50", headers=headers)
     if response.status_code != 200:
-        return jsonify({
-            "error": "Failed to fetch playlists, please try again"
-        }), response.status_code
+        return redirect("/error")
     data = response.json()
     playlists = []
 
@@ -154,7 +150,7 @@ def get_playlists():
             "Owner": playlist["owner"]["display_name"],
             "Total tracks": playlist["tracks"]["total"],
             "Playlist link": playlist["external_urls"]["spotify"],
-            "image": playlist["images"][0]["url"]
+            "image": playlist["images"][0]["url"] if playlist["images"] else None
         }
         playlists.append(playlist_info)
 
@@ -179,9 +175,7 @@ def get_artists():
         ApiUrl + "/top/artists?time_range=medium_term&limit=10&offset=0",
         headers=headers)
     if response.status_code != 200:
-        return jsonify({
-            "error": "Failed to fetch user profile, please try again"
-        }), response.status_code
+        return redirect("/error")
     data = response.json()
     artists = []
     for item in data["items"]:
@@ -208,9 +202,7 @@ def get_tracks():
         ApiUrl + "/top/tracks?time_range=long_term&limit=10&offset=0",
         headers=headers)
     if response.status_code != 200:
-        return jsonify({
-            "error": "Failed to fetch user profile, please try again"
-        }), response.status_code
+        return redirect("/error")
     data = response.json()
     tracks = []
     for item in data["items"]:
@@ -258,9 +250,41 @@ def refresh_token():
         return redirect("/")
 
 
+@app.route("/logout")
+def logout():
+    """
+    Logs out the user by clearing the session.
+
+    Returns:
+        A redirect to the "/login" endpoint.
+    """
+    session.clear()
+    return redirect("/")
+
+
+@app.route("/error")
+def error():
+    """
+    Renders the error.html template.
+
+    Returns:
+        The rendered error.html template.
+    """
+    return render_template("error.html")
+
+
 @app.errorhandler(404)
 def not_found(error):
-    return render_template("404.html"), 404
+    """
+    Renders the 404.html template and returns a 404 status code.
+
+    Args:
+        error: The error object or message.
+
+    Returns:
+        A tuple containing the rendered template and the 404 status code.
+    """
+    return render_template("notfound.html"), 404
 
 
 if __name__ == "__main__":
