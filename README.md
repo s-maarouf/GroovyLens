@@ -20,19 +20,19 @@ SpotiLytics is a Flask web application that interacts with the Spotify API to pr
 
 ## Features
 
-User authentication via Spotify OAuth
-Display user profile information
-Retrieve and display user playlists
-Retrieve and display user top artists and tracks
-Token refresh functionality
-Modular code organization using Flask blueprints
+- User authentication via Spotify OAuth
+- Display user profile information
+- Retrieve and display user playlists
+- Retrieve and display user top artists and tracks
+- Token refresh functionality
+- Modular code organization using Flask blueprints
 
 ## Requirements
 
-Python 3.8+
-Flask
-Requests
-Spotify Developer Account
+- Python 3.8+
+- Flask
+- Requests
+- Spotify Developer Account
 
 ## Installation
 
@@ -61,8 +61,6 @@ ClientId = 'your_client_id'
 ClientSecret = 'your_client_secret'
 RedirectUri = 'your_redirect_uri'
 ```
-
-Update the RedirectUri in config.py to match the redirect URI set in your Spotify Developer Dashboard.
 
 ### Usage
 
