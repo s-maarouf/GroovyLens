@@ -1,5 +1,7 @@
 # SpotiLytics
 
+![SpotiLytics](static/images/home.png)
+
 SpotiLytics is a Flask web application that interacts with the Spotify API to provide users with insights into their Spotify account. Users can log in with their Spotify credentials to view their profile, playlists, top artists, and top tracks. The application is modularized using Flask blueprints for better organization and scalability.
 
 ## Table of Contents
