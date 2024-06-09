@@ -14,3 +14,13 @@ def error():
         The rendered error.html template.
     """
     return render_template("error.html")
+
+@misc_blueprint.route("/forbidden")
+def forbidden():
+    """
+    Renders the forbidden.html template.
+
+    Returns:
+        The rendered forbidden.html template.
+    """
+    return render_template("forbidden.html")

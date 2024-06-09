@@ -4,7 +4,7 @@ the user's top artists and tracks from Spotify API. """
 import datetime
 import requests
 from config import ApiUrl
-from flask import Blueprint, session, redirect, jsonify
+from flask import Blueprint, session, redirect, jsonify, render_template
 
 top_items_blueprint = Blueprint('top_items', __name__)
 
@@ -30,7 +30,7 @@ def get_artists():
         "Authorization": "Bearer " + session["access_token"]
     }
     response = requests.get(
-        ApiUrl + "/top/artists?time_range=medium_term&limit=10&offset=0",
+        ApiUrl + "/top/artists?time_range=long_term&limit=10&offset=0",
         headers=headers)
     if response.status_code != 200:
         return redirect("/error")
@@ -38,12 +38,15 @@ def get_artists():
     artists = []
     for item in data["items"]:
         artist_info = {
-            "Name": item["name"],
-            "Followers": item["followers"]["total"],
+            "Artist name": item["name"],
+            "Artist link": item["external_urls"]["spotify"],
+            "Artist image": item["images"][1]["url"] if len(item["images"]) > 1 else item["images"][0]["url"],
+            "Genres": item["genres"]
         }
+
         artists.append(artist_info)
 
-    return jsonify(artists)
+    return render_template("top_artists.html", artists=artists)
 
 
 @top_items_blueprint.route("/top-tracks")
@@ -65,6 +68,8 @@ def get_tracks():
     response = requests.get(
         ApiUrl + "/top/tracks?time_range=long_term&limit=10&offset=0",
         headers=headers)
+    if response.status_code == 403:
+        return redirect("/forbidden")
     if response.status_code != 200:
         return redirect("/error")
     data = response.json()
@@ -73,12 +78,11 @@ def get_tracks():
         track_info = {
             "Track name": item["name"],
             "Track link": item["external_urls"]["spotify"],
-            "Track image": item["album"]["images"][1]["url"],
+            "Track image": item["album"]["images"][1]["url"] if len(item["album"]["images"]) > 1 else item["album"]["images"][0]["url"],
             "Album name": item["album"]["name"],
             "Artists": item["artists"],
-            "Preview link": item["preview_url"]
         }
 
         tracks.append(track_info)
 
-    return jsonify(tracks)
+    return render_template("top_tracks.html", tracks=tracks)

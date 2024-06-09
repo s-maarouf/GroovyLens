@@ -55,3 +55,33 @@ body {
 .links a:hover {
     color: #14833b;
 }
+
+@media screen and (max-width: 768px) {
+    .greetings h1 {
+        font-size: 4em;
+    }
+
+    .greetings h3 {
+        font-size: 1.2em;
+    }
+
+    .links h3 {
+        font-size: 1em;
+    }
+    
+}
+
+@media screen and (max-width: 480px) {
+    .greetings h1 {
+        font-size: 3em;
+    }
+
+    .greetings h3 {
+        font-size: 1em;
+    }
+
+    .links h3 {
+        font-size: 0.8em;
+    }
+    
+}

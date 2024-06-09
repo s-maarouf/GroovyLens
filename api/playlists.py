@@ -28,6 +28,8 @@ def get_playlists():
     }
     response = requests.get(
         ApiUrl + "/playlists?offset=0&limit=50", headers=headers)
+    if response.status_code == 403:
+        return redirect("/forbidden")
     if response.status_code != 200:
         return redirect("/error")
     data = response.json()
