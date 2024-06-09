@@ -105,19 +105,19 @@ SpotiLytics/
 │   ├── top_items.py
 │   ├── token.py
 │   └── misc.py
-└── templates/
-    ├── index.html
-    ├── profile.html
-    ├── playlists.html
-    ├── error.html
-    └── notfound.html
-___ static/
+├── templates/
+│   ├── index.html
+│   ├── profile.html
+│   ├── playlists.html
+│   ├── error.html
+│   └── notfound.html
+└── static/
     ├── images/
     │   └── spotilytics.png
     └── styles/
-        └── style.css
-        └── profile.css
-        └── notfound.css
+        ├── style.css
+        ├── profile.css
+        ├── notfound.css
         └── error.css
 ```
 
