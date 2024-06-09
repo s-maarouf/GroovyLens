@@ -40,7 +40,8 @@ def get_artists():
         artist_info = {
             "Artist name": item["name"],
             "Artist link": item["external_urls"]["spotify"],
-            "Artist image": item["images"][1]["url"] if len(item["images"]) > 1 else item["images"][0]["url"],
+            "Artist image": item["images"][1]["url"]
+            if len(item["images"]) > 1 else item["images"][0]["url"],
             "Genres": item["genres"]
         }
 
@@ -78,7 +79,9 @@ def get_tracks():
         track_info = {
             "Track name": item["name"],
             "Track link": item["external_urls"]["spotify"],
-            "Track image": item["album"]["images"][1]["url"] if len(item["album"]["images"]) > 1 else item["album"]["images"][0]["url"],
+            "Track image": item["album"]["images"][1]["url"]
+            if len(item["album"]["images"]) > 1
+            else item["album"]["images"][0]["url"],
             "Album name": item["album"]["name"],
             "Artists": item["artists"],
         }

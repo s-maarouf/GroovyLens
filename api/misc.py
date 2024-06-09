@@ -15,6 +15,7 @@ def error():
     """
     return render_template("error.html")
 
+
 @misc_blueprint.route("/forbidden")
 def forbidden():
     """

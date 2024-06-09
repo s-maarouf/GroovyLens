@@ -33,7 +33,8 @@ def get_profile():
     user_info = {
         "username": data["display_name"],
         "followers": data["followers"]["total"],
-        "profile_pic": data["images"][1]["url"] if data["images"] else "../static/images/profile.png"
+        "profile_pic": data["images"][1]["url"] if data["images"]
+        else "../static/images/profile.png"
     }
 
     return render_template("profile.html", user=user_info)
