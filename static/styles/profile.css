@@ -70,11 +70,13 @@ body {
     font-family: 'Poppins', sans-serif;
     font-weight: 400;
     font-size: 1.3em;
+    margin: 10px 0;
 }
 
 .links {
-    text-align: center;
+    text-align: left;
     margin-top: 20px;
+    display: inline-block;
 }
 
 .links h3 {

@@ -6,12 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="static/images/spotify.png">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../static/styles/items.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Arial|Poppins:400,600,700">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap">
-    <link rel="stylesheet" href="../static/styles/items.css">
     <script src="https://kit.fontawesome.com/01dce77cff.js" crossorigin="anonymous"></script>
-    <title>Spotify Playlists</title>
+    <title>Top 10 Tracks</title>
 </head>
 
 <body>
@@ -19,24 +19,22 @@
         <button class="home-button">
             <a href="/profile"><i class="fa-solid fa-house-user"></i> Home</a>
         </button>
-        <h1>Your Spotify playlists</h1>
+        <h1>Your Top 10 Tracks</h1>
     </div>
     <div class="container">
-        <div class="total-playlists">
-            Total Playlists: {{ total_playlists }}
-        </div>
         <div class="item-list">
-            {% for playlist in playlists %}
+            {% for track in tracks %}
             <div class="item">
-                <img src="{{ playlist['image'] }}" alt="Playlist image" class="item-image">
+                <img src="{{ track['Track image'] }}" alt="Track Image" class="item-image">
                 <div class="item-info">
-                    <h2>{{ playlist['Playlist name'] }}</h2>
-                    <p><strong>Owner:</strong> {{ playlist['Owner'] }}</p>
-                    <p><strong>Total tracks:</strong> {{ playlist['Total tracks'] }}</p>
+                    <h2>{{ track['Track name'] }}</h2>
+                    <p><strong>Album:</strong> {{ track['Album name'] }}</p>
+                    <p><strong>Artists:</strong> {% for artist in track['Artists'] %}{{ artist['name'] }}{% if not
+                        loop.last %}, {% endif %}{% endfor %}</p>
                 </div>
                 <div class="item-links">
-                    <a href="{{ playlist['Playlist link'] }}" target="_blank"><i class="fa-brands fa-spotify fa-lg"></i>
-                        Playlist</a>
+                    <a href="{{ track['Track link'] }}" target="_blank"><i class="fa-brands fa-spotify fa-lg"></i>
+                        Listen</a>
                 </div>
             </div>
             {% endfor %}
