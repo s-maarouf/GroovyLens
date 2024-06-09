@@ -25,13 +25,15 @@ def get_profile():
         "Authorization": "Bearer " + session["access_token"]
     }
     response = requests.get(ApiUrl, headers=headers)
+    if response.status_code == 403:
+        return redirect("/forbidden")
     if response.status_code != 200:
         return redirect("/error")
     data = response.json()
     user_info = {
         "username": data["display_name"],
         "followers": data["followers"]["total"],
-        "profile_pic": data["images"][1]["url"] if data["images"] else None
+        "profile_pic": data["images"][1]["url"] if data["images"] else "../static/images/profile.png"
     }
 
     return render_template("profile.html", user=user_info)
