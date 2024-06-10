@@ -2,7 +2,7 @@
 
 import requests
 import datetime
-from flask import Blueprint, redirect, request, session, jsonify
+from flask import Blueprint, redirect, request, session, jsonify, render_template
 from urllib import parse
 from config import ClientId, ClientSecret, RedirectUri, AuthUrl, TokenUrl
 
@@ -45,8 +45,7 @@ def callback():
     """
 
     if "error" in request.args:
-        return jsonify({"error": request.args["error"]})
-
+        return render_template("error.html")
     if "code" in request.args:
         body = {
             "code": request.args["code"],
