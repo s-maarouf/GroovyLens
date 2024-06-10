@@ -41,7 +41,7 @@ SpotiLytics is a Flask web application that interacts with the Spotify API to pr
 Clone the repository:
 
 ```sh
-git clone https://github.com/yourusername/SpotiLytics.git
+git clone https://github.com/s-maarouf/SpotiLytics.git
 cd SpotiLytics
 ```
 
@@ -106,29 +106,34 @@ SpotiLytics/
 │   ├── token.py
 │   └── misc.py
 ├── templates/
-│   ├── index.html
-│   ├── profile.html
-│   ├── playlists.html
 │   ├── error.html
-│   └── notfound.html
+│   ├── forbidden.html
+│   ├── index.html
+│   ├── notfound.html
+│   ├── playlists.html
+│   ├── profile.html
+│   ├── top_artists.html
+│   └── top_tracks.html
 └── static/
     ├── images/
-    │   └── spotilytics.png
+    │   ├── home.png
+    │   ├── profile.png
+    │   └── spotify.png
     └── styles/
-        ├── style.css
+        ├── error.css
+        ├── items.css
         ├── profile.css
-        ├── notfound.css
-        └── error.css
+        └── style.css
 ```
 
 ### Files
 
-app.py - Main application file
-config.py - Configuration file
-requirements.txt - Required packages
-routes/ - Contains route files
-templates/ - Contains HTML templates
-static/ - Contains static files
+- app.py - Main application file
+- config.py - Configuration file
+- requirements.txt - Required packages
+- routes/ - Contains route files
+- templates/ - Contains HTML templates
+- static/ - Contains static files
 
 ## Author
 
