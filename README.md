@@ -1,12 +1,12 @@
-# SpotiLytics
+# GroovyLens
 
-![SpotiLytics](static/images/home.png)
+![GroovyLens](static/images/home.png)
 
-SpotiLytics is a Flask web application that interacts with the Spotify API to provide users with insights into their Spotify account. Users can log in with their Spotify credentials to view their profile, playlists, top artists, and top tracks. The application is modularized using Flask blueprints for better organization and scalability.
+GroovyLens is a Flask web application that interacts with the Spotify API to provide users with insights into their Spotify account. Users can log in with their Spotify credentials to view their profile, playlists, top artists, and top tracks. The application is modularized using Flask blueprints for better organization and scalability.
 
 ## Table of Contents
 
-- [SpotiLytics](#spotilytics)
+- [GroovyLens](#groovylens)
   - [Table of Contents](#table-of-contents)
   - [Features](#features)
   - [Requirements](#requirements)
@@ -41,8 +41,8 @@ SpotiLytics is a Flask web application that interacts with the Spotify API to pr
 Clone the repository:
 
 ```sh
-git clone https://github.com/s-maarouf/SpotiLytics.git
-cd SpotiLytics
+git clone https://github.com/s-maarouf/GroovyLens.git
+cd GroovyLens
 ```
 
 ### Install the required packages
@@ -93,7 +93,7 @@ The application has the following routes:
 ### Project Structure
 
 ```sh
-SpotiLytics/
+GroovyLens/
 ├── app.py
 ├── config.py
 ├── requirements.txt

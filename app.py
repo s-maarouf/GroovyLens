@@ -1,5 +1,5 @@
 """
-    SpotiLytics API
+    GroovyLens - A Spotify Analytics Web Application
 
     This module contains the main Flask application that
     serves as the API for the SpotiLytics web application.
