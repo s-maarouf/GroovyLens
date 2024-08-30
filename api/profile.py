@@ -60,14 +60,16 @@ def get_recommendations():
         "Authorization": "Bearer " + session["access_token"]
     }
 
-    r, tracks_id, artists_id = get_tracks()
-    r, user_market = get_profile()
-    r, genres = get_artists()
+    seeds = get_tracks()[1]
+    seed_artists = '%2C'.join(seeds['Artist_id'][:2])
+    seed_tracks = '%2C'.join(seeds['Tracks_id'][:2])
+    user_market = get_profile()[1]
+    genres = get_artists()[1]
+    genres = genres['Genres'][0]
     response = requests.get(
         ApiUrl[:-2] +
-        f"recommendations?limit=10&market={user_market}&seed_artists={'%2c'.join(artists_id[:2])}&seed_genres={genres[0]}&seed_tracks={'%2c'.join(tracks_id[:2])}",
+        f"recommendations?limit=10&market={user_market}&seed_artists={seed_artists}&seed_genres={genres}&seed_tracks={seed_tracks}",
         headers=headers)
-    print(response.url)
     if response.status_code != 200:
         return redirect("/error")
     data = response.json()

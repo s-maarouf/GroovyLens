@@ -47,7 +47,7 @@ def get_artists():
 
         artists.append(artist_info)
 
-    return render_template("top_artists.html", artists=artists), artist_info["Genres"]
+    return render_template("top_artists.html", artists=artists), {"Genres": item["genres"]}
 
 
 @top_items_blueprint.route("/top-tracks")
@@ -95,4 +95,4 @@ def get_tracks():
         tracks_id.append(track_ids)
         artists_id.append(artist_ids)
 
-    return render_template("top_tracks.html", tracks=tracks), tracks_id, artists_id
+    return render_template("top_tracks.html", tracks=tracks), {"Tracks_id": tracks_id, "Artist_id": artists_id}
