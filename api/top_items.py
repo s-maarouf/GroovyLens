@@ -47,7 +47,7 @@ def get_artists():
 
         artists.append(artist_info)
 
-    return render_template("top_artists.html", artists=artists)
+    return render_template("top_artists.html", artists=artists), artist_info["Genres"]
 
 
 @top_items_blueprint.route("/top-tracks")
@@ -75,6 +75,8 @@ def get_tracks():
         return redirect("/error")
     data = response.json()
     tracks = []
+    tracks_id = []
+    artists_id = []
     for item in data["items"]:
         track_info = {
             "Track name": item["name"],
@@ -86,8 +88,11 @@ def get_tracks():
             "Artists": item["artists"],
             "Explicit": "E" if item["explicit"] else None,
         }
+        track_ids = item["id"]
+        artist_ids = item["artists"][0]["id"]
 
         tracks.append(track_info)
-    print(tracks[0])
+        tracks_id.append(track_ids)
+        artists_id.append(artist_ids)
 
-    return render_template("top_tracks.html", tracks=tracks)
+    return render_template("top_tracks.html", tracks=tracks), tracks_id, artists_id
