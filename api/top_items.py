@@ -84,8 +84,10 @@ def get_tracks():
             else item["album"]["images"][0]["url"],
             "Album name": item["album"]["name"],
             "Artists": item["artists"],
+            "Explicit": "E" if item["explicit"] else None,
         }
 
         tracks.append(track_info)
+    print(tracks[0])
 
     return render_template("top_tracks.html", tracks=tracks)

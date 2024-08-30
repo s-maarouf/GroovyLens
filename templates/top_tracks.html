@@ -27,14 +27,14 @@
             <div class="item">
                 <img src="{{ track['Track image'] }}" alt="Track Image" class="item-image">
                 <div class="item-info">
-                    <h2>{{ track['Track name'] }}</h2>
-                    <p><strong>Album:</strong> {{ track['Album name'] }}</p>
-                    <p><strong>Artists:</strong> {% for artist in track['Artists'] %}{{ artist['name'] }}{% if not
+                    <h2>{{ track['Track name'] }}{% if track['Explicit'] %}<span class="explicit">{{ track['Explicit'] }}</span>{% endif %}</h2>
+                    <p><strong>Artist:</strong> {% for artist in track['Artists'] %}{{ artist['name'] }}{% if not
                         loop.last %}, {% endif %}{% endfor %}</p>
+                    <p><strong>Album:</strong> {{ track['Album name'] }}</p>
                 </div>
                 <div class="item-links">
                     <a href="{{ track['Track link'] }}" target="_blank"><i class="fa-brands fa-spotify fa-lg"></i>
-                        Listen</a>
+                        OPEN SPOTIFY</a>
                 </div>
             </div>
             {% endfor %}
