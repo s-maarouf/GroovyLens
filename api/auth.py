@@ -2,7 +2,7 @@
 
 import requests
 import datetime
-from flask import Blueprint, redirect, request, session, render_template
+from flask import Blueprint, redirect, request, session, jsonify, render_template
 from urllib import parse
 from config import ClientId, ClientSecret, RedirectUri, AuthUrl, TokenUrl
 

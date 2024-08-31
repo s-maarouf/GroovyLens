@@ -15,12 +15,14 @@ from api.playlists import playlists_blueprint
 from api.top_items import top_items_blueprint
 from api.token import token_blueprint
 from api.misc import misc_blueprint
+from api.profile import reccomendations_blueprint
 
 app = Flask(__name__)
 app.secret_key = str(uuid4())
 
 app.register_blueprint(auth_blueprint)
 app.register_blueprint(profile_blueprint)
+app.register_blueprint(reccomendations_blueprint)
 app.register_blueprint(playlists_blueprint)
 app.register_blueprint(top_items_blueprint)
 app.register_blueprint(token_blueprint)
