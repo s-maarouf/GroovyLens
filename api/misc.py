@@ -1,6 +1,6 @@
 """ This module contains the misc blueprint. """
 
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, redirect
 
 misc_blueprint = Blueprint('misc', __name__)
 
@@ -25,3 +25,18 @@ def forbidden():
         The rendered forbidden.html template.
     """
     return render_template("forbidden.html")
+
+
+def get_error(response):
+    """
+    Redirects the user to the appropriate page based on the response status code.
+
+    Returns:
+    - Appropriate page based on the response status code.
+
+    """
+    if response.status_code == 403:
+        return redirect("/forbidden")
+    if response.status_code != 200:
+        return redirect("/error")
+    
