@@ -19,7 +19,7 @@ def login():
     """
 
     scope = "user-read-private user-read-email \
-            playlist-read-private user-top-read"
+            playlist-read-private user-top-read user-library-read"
     params = {
         "client_id": ClientId,
         "response_type": "code",
