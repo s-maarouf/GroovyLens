@@ -4,12 +4,26 @@ the user's top artists and tracks from Spotify API. """
 import datetime
 import requests
 from config import ApiUrl
+from api.misc import get_error
 from flask import Blueprint, session, redirect, jsonify, render_template
 
 top_items_blueprint = Blueprint('top_items', __name__)
 
 
-@top_items_blueprint.route("/top-artists")
+@top_items_blueprint.route("/top-items")
+def top_items():
+    """
+    Retrieves the user's top artists and tracks from Spotify API.
+
+    Returns:
+        A rendered template with the user's top artists and tracks.
+    """
+    artists = get_artists()
+    tracks = get_tracks()
+
+    return render_template("top_artists.html", artists=artists, tracks=tracks)
+
+
 def get_artists():
     """
     Retrieves the top artists based on the user's access token.
@@ -30,10 +44,9 @@ def get_artists():
         "Authorization": "Bearer " + session["access_token"]
     }
     response = requests.get(
-        ApiUrl + "/top/artists?time_range=long_term&limit=10&offset=0",
+        ApiUrl + "/top/artists?time_range=long_term&limit=50",
         headers=headers)
-    if response.status_code != 200:
-        return redirect("/error")
+    get_error(response)
     data = response.json()
     artists = []
     for item in data["items"]:
@@ -47,10 +60,9 @@ def get_artists():
 
         artists.append(artist_info)
 
-    return render_template("top_artists.html", artists=artists), {"Genres": item["genres"]}
+    return artists
 
 
-@top_items_blueprint.route("/top-tracks")
 def get_tracks():
     """
     Retrieves the top tracks from Spotify API.
@@ -67,12 +79,9 @@ def get_tracks():
         "Authorization": "Bearer " + session["access_token"]
     }
     response = requests.get(
-        ApiUrl + "/top/tracks?time_range=long_term&limit=10&offset=0",
+        ApiUrl + "/top/tracks?time_range=long_term&limit=50",
         headers=headers)
-    if response.status_code == 403:
-        return redirect("/forbidden")
-    if response.status_code != 200:
-        return redirect("/error")
+    get_error(response)
     data = response.json()
     tracks = []
     tracks_id = []
@@ -95,4 +104,4 @@ def get_tracks():
         tracks_id.append(track_ids)
         artists_id.append(artist_ids)
 
-    return render_template("top_tracks.html", tracks=tracks), {"Tracks_id": tracks_id, "Artist_id": artists_id}
+    return tracks
