@@ -4,13 +4,31 @@ from flask import Blueprint, session, redirect, render_template
 import datetime
 import requests
 from config import ApiUrl
+from api.misc import get_error
 from api.top_items import get_tracks, get_artists
+from api.playlists import get_playlists
 
-profile_blueprint = Blueprint('profile', __name__)
-reccomendations_blueprint = Blueprint('reccomendations', __name__)
+home_blueprint = Blueprint('home', __name__)
 
 
-@profile_blueprint.route("/profile")
+@home_blueprint.route("/home")
+def home():
+    """
+    Renders the home.html template.
+
+    Returns:
+        The rendered home.html template.
+    """
+    user = get_profile()
+    total_playlists = get_playlists()
+    liked = get_liked()
+    artists = get_artists()[1]
+    tracks = get_tracks()[1]
+    recommendations = get_recommendations()
+
+    return render_template("newprofile.html", user=user, total_playlists=total_playlists, liked=liked, artists=artists, tracks=tracks, recommendations=recommendations)
+
+
 def get_profile():
     """
     Retrieves the current user's profile from the API.
@@ -27,10 +45,7 @@ def get_profile():
         "Authorization": "Bearer " + session["access_token"]
     }
     response = requests.get(ApiUrl, headers=headers)
-    if response.status_code == 403:
-        return redirect("/forbidden")
-    if response.status_code != 200:
-        return redirect("/error")
+    get_error(response)
     data = response.json()
     user_info = {
         "username": data["display_name"],
@@ -40,16 +55,15 @@ def get_profile():
         "market": data["country"],
     }
 
-    return render_template("profile.html", user=user_info), user_info["market"]
+    return user_info
 
 
-@reccomendations_blueprint.route("/recommendations")
 def get_recommendations():
     """
     Retrieves the user's recommendations from the API.
 
     Returns:
-        A JSON response containing the user's recommendations.
+        A rendered template with the user's recommendations.
     """
     if "access_token" not in session:
         return redirect("/login")
@@ -60,18 +74,16 @@ def get_recommendations():
         "Authorization": "Bearer " + session["access_token"]
     }
 
-    seeds = get_tracks()[1]
-    seed_artists = '%2C'.join(seeds['Artist_id'][:2])
-    seed_tracks = '%2C'.join(seeds['Tracks_id'][:2])
-    user_market = get_profile()[1]
-    genres = get_artists()[1]
-    genres = genres['Genres'][0]
+    seeds = get_tracks()
+    seed_artists = '%2C'.join(seeds[3][:2])
+    seed_tracks = '%2C'.join(seeds[2][:2])
+    user_market = get_profile()["market"]
+    genres = get_artists()[2][0]
     response = requests.get(
         ApiUrl[:-2] +
-        f"recommendations?limit=10&market={user_market}&seed_artists={seed_artists}&seed_genres={genres}&seed_tracks={seed_tracks}",
+        f"recommendations?limit=5&market={user_market}&seed_artists={seed_artists}&seed_genres={genres}&seed_tracks={seed_tracks}",
         headers=headers)
-    if response.status_code != 200:
-        return redirect("/error")
+    get_error(response)
     data = response.json()
     recommendations = []
     for item in data["tracks"]:
@@ -88,3 +100,26 @@ def get_recommendations():
         recommendations.append(track_info)
 
     return recommendations
+
+
+def get_liked():
+    """
+    Retrieves the user's liked songs from the API.
+
+    Returns:
+        A JSON response containing the user's liked songs.
+    """
+    if "access_token" not in session:
+        return redirect("/login")
+
+    if datetime.datetime.now().timestamp() > session["expires_at"]:
+        return redirect("/refresh-token")
+    headers = {
+        "Authorization": "Bearer " + session["access_token"]
+    }
+    response = requests.get("https://api.spotify.com/v1/me/tracks?limit=50&offset=0",
+                            headers=headers)
+    get_error(response)
+    data = response.json()
+
+    return data["total"]
