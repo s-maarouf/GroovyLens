@@ -62,7 +62,7 @@ def callback():
         session["expires_at"] = datetime.datetime.now().timestamp() + \
             token["expires_in"]
 
-        return redirect("/profile")
+        return redirect("/home")
 
 
 @auth_blueprint.route("/logout")
