@@ -3,12 +3,11 @@
 import datetime
 import requests
 from config import ApiUrl
+from api.misc import get_error
 from flask import Blueprint, session, redirect, render_template
 
-playlists_blueprint = Blueprint('playlists', __name__)
 
 
-@playlists_blueprint.route("/playlists")
 def get_playlists():
     """
     Retrieves playlists from the Spotify API.
@@ -28,10 +27,7 @@ def get_playlists():
     }
     response = requests.get(
         ApiUrl + "/playlists?offset=0&limit=50", headers=headers)
-    if response.status_code == 403:
-        return redirect("/forbidden")
-    if response.status_code != 200:
-        return redirect("/error")
+    get_error(response)
     data = response.json()
     playlists = []
 
@@ -48,6 +44,4 @@ def get_playlists():
 
     total_playlists = len(playlists)
 
-    return render_template("playlists.html",
-                           playlists=playlists,
-                           total_playlists=total_playlists)
+    return total_playlists
