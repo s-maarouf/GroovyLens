@@ -60,7 +60,7 @@ def get_artists():
 
         artists.append(artist_info)
 
-    return artists
+    return artists, artists[:3], artist_info['Genres']
 
 
 def get_tracks():
@@ -104,4 +104,4 @@ def get_tracks():
         tracks_id.append(track_ids)
         artists_id.append(artist_ids)
 
-    return tracks
+    return tracks, tracks[:3], tracks_id, artists_id
